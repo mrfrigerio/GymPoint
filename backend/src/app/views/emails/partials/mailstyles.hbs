@@ -1,0 +1,135 @@
+<style>
+  @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+
+  html {
+    position: relative;
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 62.5%;
+  }
+
+  .welcome {
+    font-size: 2rem;
+    padding-bottom: 10px;
+  }
+
+  body {
+    max-width: 800px;
+    margin: auto;
+  }
+
+  p {
+    font-size: 1.6rem;
+    text-align: justify;
+  }
+
+  .main {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100vh;
+    background-color: rgb(40, 42, 54);
+    height: 100%;
+    padding: 20px;
+    color: #fff;
+  }
+
+  .header {
+    display: flex;
+    justify-content: center;
+    margin: 40px 0px;
+  }
+
+  .logo {
+    margin-top: 20px;
+    display: block;
+    width: 198px;
+    height: 122px;
+    background-image: url('http://localhost:3000/assets/gympoint_logo.png')
+  }
+
+  .plan_card {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    padding: 10px;
+    width: 190px;
+    border: 2px solid rgb(238, 77, 100);
+    border-radius: 4px;
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: center;
+  }
+
+  .plan_card>img {
+    max-width: 120px;
+    align-self: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+  }
+
+  .plan_card>p {
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin: 5px;
+  }
+
+  .plan_card>p span {
+    font-weight: normal;
+  }
+
+  .footer {
+    bottom: 20px;
+    display: flex;
+    justify-content: center;
+    border-top: 4px solid #ccc;
+    margin-top: 30px;
+    margin-bottom: 40px;
+    padding: 5px;
+    padding-top: 15px;
+  }
+
+  .footer>small {
+    font-size: 1.2rem;
+  }
+
+  .help-order {
+    color: skyblue;
+  }
+
+  @media(max-width: 700px) {
+    html {
+      font-size: 50%;
+      margin: 0px;
+    }
+
+    .header {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0px;
+    }
+
+    .welcome {
+      margin-bottom: 10px;
+
+    }
+
+    .main {
+      margin: 0;
+      padding: 10px 15px;
+      padding-top: 20px;
+    }
+
+    .footer {
+      margin-top: 20px;
+      margin-bottom: 15px;
+      padding: 5px;
+      padding-top: 10px;
+    }
+  }
+
+  }
+</style>
