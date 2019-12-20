@@ -1,6 +1,7 @@
+import React from 'react'
+import { useSelector } from 'react-redux'
 import { Route, Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import React from 'react'
 
 // import { Container } from './styles';
 import AuthLayout from '~/pages/_layouts/auth'
@@ -11,7 +12,8 @@ export default function TweakedRouter({
   isPrivate,
   ...rest
 }) {
-  const signed = false
+  const signed = useSelector(state => state.auth.signed)
+
   if (!signed && isPrivate) {
     return <Redirect to="/" />
   }

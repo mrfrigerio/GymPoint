@@ -25,10 +25,6 @@ export const Container = styled.div`
   margin: 20px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 
-  img {
-    margin: 0px 0 10px;
-  }
-
   form {
     width: 100%;
     margin-top: 20px;
@@ -36,8 +32,10 @@ export const Container = styled.div`
     flex-direction: column;
 
     label {
+      display: block;
       font-weight: bold;
       line-height: 16px;
+      padding-top: 10px;
     }
 
     input {
@@ -48,7 +46,7 @@ export const Container = styled.div`
       display: block;
       padding: 0 15px;
       border-radius: 4px;
-      margin: 10px 0 20px;
+      margin: 10px 0;
     }
 
     button {
@@ -57,12 +55,14 @@ export const Container = styled.div`
       font-size: 16px;
       line-height: 19px;
       font-weight: bold;
+      margin-top: 10px;
       color: #fff;
       border: none;
       border-radius: 4px;
       transition: background 0.2s;
 
-      &:hover {
+      &:hover,
+      &:focus {
         background: ${darken(0.05, '#ee4d64')};
       }
     }
