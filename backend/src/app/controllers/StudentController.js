@@ -1,10 +1,15 @@
+import { Op } from 'sequelize'
 import * as Yup from 'yup'
 import Student from '../models/Student'
 // name, email, age, weight, height
 
 class StudentController {
   async index(req, res) {
-    const students = await Student.findAll()
+    const students = await Student.findAll({
+      where: {
+        name: { [Op.iLike]: req.query.name ? `%${req.query.name}%` : '%' }
+      },
+    })
     return res.json(students)
   }
 
@@ -66,6 +71,28 @@ class StudentController {
 
     const updatedStudent = await storedStudent.update(req.body)
     return res.json(updatedStudent)
+  }
+
+  async delete(req, res) {
+
+    const { studentId: id } = req.params
+    const schema = Yup.object().shape({
+      id: Yup.number().integer().required()
+    })
+
+    if (!schema.isValid({ id })) {
+      return res.status(400).json({ error: 'Validation fails' })
+    }
+
+    const student = await Student.findByPk(id)
+    if (!student) {
+      return res.status(400).json({ error: 'Student not found' })
+    }
+
+    await student.destroy()
+
+    return res.json()
+
   }
 }
 

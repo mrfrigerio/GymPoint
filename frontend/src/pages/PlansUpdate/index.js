@@ -10,7 +10,12 @@ import history from '~/services/history'
 import currencyFormatter from '~/utils/currencyFormatter'
 import { Container, TopBar, InputsContainer } from './styles'
 
-export default function PlansRegister() {
+// import { Container } from './styles';
+
+export default function PlansUpdate({ location }) {
+  const { plan } = location.state
+  plan.total = currencyFormatter.format(plan.price * plan.duration)
+
   const schema = Yup.object().shape({
     title: Yup.string().required(
       'O título do plano é de preenchimento obrigatório'
@@ -30,29 +35,19 @@ export default function PlansRegister() {
       )
       .nullable(true)
   })
-  async function handleSubmit(data, { resetForm }) {
+  async function handleSubmit(data) {
     try {
-      await api.post(`/plans`, data)
-      toast.success('Plano cadastrado com sucesso!')
-      setInterval(resetForm, 3500)
+      await api.put(`/plans/${plan.id}`, data)
+      toast.success('Plano atualizado com sucesso!')
     } catch (err) {
-      toast.error('Falha no cadastro do plano, verifique os dados!')
+      toast.error('Falha na atualização, verifique os dados!')
     }
   }
-
-  function handleChange() {
-    const duration = document.getElementById('duration').value
-    const price = document.getElementById('price').value
-    const total = duration && price ? duration * price : ''
-    const elTotal = document.getElementById('total')
-    elTotal.value = currencyFormatter.format(total)
-  }
-
   return (
     <Container>
-      <Form onSubmit={handleSubmit} schema={schema}>
+      <Form onSubmit={handleSubmit} schema={schema} initialData={plan}>
         <TopBar>
-          <h1>Cadastro de plano</h1>
+          <h1>Cadastro de aluno</h1>
           <div id="actions">
             <button type="button" onClick={() => history.push('/plans/list')}>
               <IoIosArrowBack />
@@ -72,11 +67,11 @@ export default function PlansRegister() {
           <div>
             <label>
               DURAÇÃO (em meses)
-              <Input id="duration" name="duration" onChange={handleChange} />
+              <Input id="duration" name="duration" />
             </label>
             <label>
               PREÇO MENSAL
-              <Input id="price" name="price" onChange={handleChange} />
+              <Input id="price" name="price" />
             </label>
             <label>
               PREÇO TOTAL
@@ -89,7 +84,7 @@ export default function PlansRegister() {
   )
 }
 
-PlansRegister.propTypes = {
+PlansUpdate.propTypes = {
   location: PropTypes.shape({
     state: PropTypes.shape({
       plan: PropTypes.shape({

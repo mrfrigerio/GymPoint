@@ -10,7 +10,8 @@ import { Container, TopBar, InputsContainer } from './styles'
 
 // import { Container } from './styles';
 
-export default function StudentsRegister() {
+export default function StudentsUpdate({ location }) {
+  const { student } = location.state
   const schema = Yup.object().shape({
     name: Yup.string().required(
       'O nome do aluno é de preenchimento obrigatório'
@@ -42,18 +43,22 @@ export default function StudentsRegister() {
   })
   async function handleSubmit(data, { resetForm }) {
     try {
-      await api.post('/students', data)
-      toast.success('Aluno cadastrado com sucesso!')
-      setTimeout(resetForm, 3500)
+      if (student) {
+        await api.put(`/students/${student.id}`, data)
+      } else {
+        toast.error('id do usuário para edição não fornecido.')
+        return
+      }
+      toast.success('Aluno atualizado com sucesso!')
     } catch (err) {
-      toast.error('Falha no cadastro, verifique seus dados!')
+      toast.error('Falha na atualização, verifique seus dados!')
     }
   }
   return (
     <Container>
-      <Form onSubmit={handleSubmit} schema={schema}>
+      <Form onSubmit={handleSubmit} schema={schema} initialData={student}>
         <TopBar>
-          <h1>Cadastro de aluno</h1>
+          <h1>Edição de aluno</h1>
           <div id="actions">
             <button
               type="button"
@@ -68,24 +73,24 @@ export default function StudentsRegister() {
           </div>
         </TopBar>
         <InputsContainer>
-          <label htmlFor="name">
+          <label>
             NOME COMPLETO
             <Input id="name" name="name" />
           </label>
-          <label htmlFor="name">
+          <label>
             ENDEREÇO DE E-MAIL
             <Input id="email" name="email" />
           </label>
           <div>
-            <label htmlFor="name">
+            <label>
               IDADE
               <Input id="age" name="age" />
             </label>
-            <label htmlFor="name">
+            <label>
               PESO (em kg)
               <Input id="weight" name="weight" />
             </label>
-            <label htmlFor="name">
+            <label>
               ALTURA
               <Input id="height" name="height" />
             </label>

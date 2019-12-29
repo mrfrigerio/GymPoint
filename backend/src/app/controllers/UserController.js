@@ -1,9 +1,21 @@
+import { Op } from 'sequelize'
 import * as Yup from 'yup'
 import User from '../models/User'
 
 // index, show, store, update, delete
 
 class UserController {
+
+  async index(req, res) {
+    const storedUsers = await User.findAll({
+      where: {
+        name: { [Op.iLike]: req.query.name ? `%${req.query.name}%` : '%' }
+      },
+      attributes: ['id', 'name', 'email']
+    })
+    res.json(storedUsers)
+  }
+
   async store(req, res) {
     const schema = Yup.object().shape({
       name: Yup.string().required(),
@@ -28,13 +40,6 @@ class UserController {
     }
     const user = await User.create(req.body)
     return res.json(user)
-  }
-
-  async index(req, res) {
-    const storedUsers = await User.findAll({
-      attributes: ['id', 'name', 'email']
-    })
-    res.json(storedUsers)
   }
 
   async update(req, res) {

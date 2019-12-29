@@ -14,6 +14,11 @@ class EnrollmentController {
           model: Student,
           as: 'student',
           attributes: ['name', 'email']
+        },
+        {
+          model: Plan,
+          as: 'plan',
+          attributes: ['title', 'duration']
         }
       ]
     })
@@ -94,7 +99,7 @@ class EnrollmentController {
       return res.status(400).json({ error: 'Enrollment not found.' })
     }
 
-    const { plan_id, student_id } = req.body
+    const { plan_id, student_id, start_date } = req.body
 
     let storedPlan = null
     let storedStudent = null
@@ -113,8 +118,18 @@ class EnrollmentController {
       }
     }
 
-    const updatedEnrollment = await storedEnrollment.update(req.body)
-    const { end_date, price } = updatedEnrollment
+    const end_date = endOfDay(
+      addMonths(parseISO(start_date), storedPlan.duration)
+    )
+    const price = storedPlan.price * storedPlan.duration
+
+    const updatedEnrollment = await storedEnrollment.update({
+      student_id,
+      plan_id,
+      start_date,
+      end_date,
+      price
+    })
 
     // Send Enrollment Mail
     await Queue.add(EnrollmentMail.key, {

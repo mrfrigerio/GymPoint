@@ -53,6 +53,34 @@ module.exports = {
       "controlComponents": ["Input"],
       "depth": 3,
     }],
+    "jsx-a11y/control-has-associated-label": [2, {
+      "labelAttributes": ["label"],
+      "controlComponents": ["CustomComponent"],
+      "ignoreElements": [
+        "audio",
+        "canvas",
+        "embed",
+        "input",
+        "textarea",
+        "tr",
+        "video",
+        "option"
+      ],
+      "ignoreRoles": [
+        "grid",
+        "listbox",
+        "menu",
+        "menubar",
+        "radiogroup",
+        "row",
+        "tablist",
+        "toolbar",
+        "tree",
+        "treegrid",
+        "datalist"
+      ],
+      "depth": 3,
+    }],
   },
   settings: {
     "import/resolver": {

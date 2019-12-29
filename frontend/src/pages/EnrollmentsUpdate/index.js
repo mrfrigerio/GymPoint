@@ -12,7 +12,9 @@ import history from '~/services/history'
 import currencyFormatter from '~/utils/currencyFormatter'
 import { Container, TopBar, InputsContainer } from './styles'
 
-export default function EnrollmentsRegister() {
+export default function EnrollmentsUpdate({ location }) {
+  const { enrollment } = location.state
+
   const schema = Yup.object().shape({
     student_id: Yup.string().required('Selecione um aluno da lista'),
     plan_id: Yup.number()
@@ -26,6 +28,7 @@ export default function EnrollmentsRegister() {
   const [students, setStudents] = useState([])
 
   useEffect(() => {
+    console.tron.log(enrollment)
     async function loadPlans() {
       const response = await api.get('/plans')
       setPlans(response.data)
@@ -34,9 +37,22 @@ export default function EnrollmentsRegister() {
       const response = await api.get('/students')
       setStudents(response.data)
     }
+    function loadValues() {
+      const studentEl = document.getElementById('student')
+      const planEl = document.getElementById('plan')
+      const endDateEl = document.getElementById('end_date')
+      const totalEl = document.getElementById('total')
+      studentEl.value = enrollment.student.name
+      studentEl.dataset.item_id = enrollment.student_id
+      planEl.dataset.item_id = enrollment.plan_id
+      planEl.value = enrollment.plan.title
+      endDateEl.value = format(parseISO(enrollment.end_date), 'dd/MM/yyyy')
+      totalEl.value = currencyFormatter.format(enrollment.price)
+    }
     loadPlans()
     loadStudents()
-  }, [])
+    loadValues()
+  }, [enrollment])
 
   const plansOptions = useMemo(
     () => plans.map(p => ({ id: p.id, title: p.title })),
@@ -50,18 +66,15 @@ export default function EnrollmentsRegister() {
   async function handleSubmit(data) {
     console.tron.log(data)
     try {
-      const response = await api.post(
-        `/students/${data.student_id}/enrollments`,
-        data
-      )
+      const response = await api.put(`/enrollments/${enrollment.id}`, data)
       const end_date = document.getElementById('end_date')
       const total = document.getElementById('total')
 
       end_date.value = format(parseISO(response.data.end_date), 'dd/MM/yyyy')
       total.value = currencyFormatter.format(response.data.price)
-      toast.success('Matrícula cadastrada com sucesso!')
+      toast.success('Matrícula alterada com sucesso!')
     } catch (err) {
-      toast.error('Falha no cadastro da matrícula, verifique os dados!')
+      toast.error('Falha na atualização da matrícula, verifique os dados!')
     }
   }
 
@@ -69,7 +82,7 @@ export default function EnrollmentsRegister() {
     <Container>
       <Form onSubmit={handleSubmit} schema={schema}>
         <TopBar>
-          <h1>Cadastro de matrícula</h1>
+          <h1>Edição de matrícula</h1>
           <div id="actions">
             <button
               type="button"
@@ -87,26 +100,28 @@ export default function EnrollmentsRegister() {
           <DataList
             label="ALUNOS"
             name="student_id"
+            id="student"
             placeholder="Buscar aluno"
             options={studentsOptions}
           />
           <div>
-            <label htmlFor="plan">
-              PLANO
-              <Select
-                id="plan"
-                name="plan_id"
-                placeholder="Selecione o plano"
-                options={plansOptions}
-              />
-            </label>
+            <DataList
+              label="PLANO"
+              name="plan_id"
+              id="plan"
+              placeholder="Selecione o plano"
+              options={plansOptions}
+            />
             <label htmlFor="start_date">
               DATA DE INÍCIO
               <DatePicker
                 id="start_date"
                 name="start_date"
                 placeholder="dd/mm/yyyy"
-                defaultValue={today}
+                defaultValue={format(
+                  parseISO(enrollment.start_date),
+                  'yyyy-MM-dd'
+                )}
                 min={today}
               />
             </label>

@@ -121,12 +121,12 @@ export const TableContainer = styled.div`
       font-weight: normal;
       background: none;
       border: none;
-      color: #4d85ee;
-    }
-
-    button + button {
       margin-left: 23px;
       color: #de3b3b;
+    }
+
+    a {
+      color: #4d85ee;
     }
   }
 `

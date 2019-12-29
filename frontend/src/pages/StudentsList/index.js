@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { GoPlus } from 'react-icons/go'
 import { MdSearch } from 'react-icons/md'
@@ -98,7 +99,13 @@ export default function StudentsList() {
                 <td>{student.email}</td>
                 <td align="center">{student.age}</td>
                 <td align="right">
-                  <button type="button">editar</button>
+                  <Link
+                    to={{
+                      pathname: '/students/update',
+                      state: { student }
+                    }}>
+                    editar
+                  </Link>
                   <button
                     type="button"
                     onClick={() => handleDelete(student.id)}>
