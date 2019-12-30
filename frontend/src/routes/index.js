@@ -6,7 +6,6 @@ import Route from '~/routes/route'
 import EnrollmentsUpdate from '~/pages/EnrollmentsUpdate'
 import EnrollmentsList from '~/pages/EnrollmentsList'
 import EnrollmentsRegister from '~/pages/EnrollmentsRegister'
-import HelpOrdersAnswer from '~/pages/HelpOrdersAnswer'
 import HelpOrdersList from '~/pages/HelpOrdersList'
 import PlansList from '~/pages/PlansList'
 import PlansRegister from '~/pages/PlansRegister'
@@ -30,11 +29,6 @@ export default function routes() {
         path="/enrollments/register"
         isPrivate
         component={EnrollmentsRegister}
-      />
-      <Route
-        path="/help-orders/answer"
-        isPrivate
-        component={HelpOrdersAnswer}
       />
       <Route path="/help-orders/list" isPrivate component={HelpOrdersList} />
       <Route path="/plans/list" isPrivate component={PlansList} />

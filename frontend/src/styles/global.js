@@ -1,6 +1,5 @@
 import { createGlobalStyle } from 'styled-components'
 import 'react-toastify/dist/ReactToastify.css'
-import '@trendmicro/react-datepicker/dist/react-datepicker.css'
 
 export default createGlobalStyle`
   @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');

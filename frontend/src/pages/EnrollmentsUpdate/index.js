@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react'
-import { Form, Select } from '@rocketseat/unform'
+import { Form } from '@rocketseat/unform'
 import * as Yup from 'yup'
 import { toast } from 'react-toastify'
 import { MdCheck } from 'react-icons/md'
